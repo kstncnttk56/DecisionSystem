@@ -10,5 +10,8 @@ package TOPSIS_AHP_ELECTRE;
  * @author NguyenVanDung
  */
 public class Ahp {
+    public static void main(String[] args){
+        System.out.println("What is the fuck are you doing here?");
+    }
     
 }
