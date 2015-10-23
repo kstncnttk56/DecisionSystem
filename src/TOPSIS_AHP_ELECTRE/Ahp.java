@@ -12,6 +12,7 @@ package TOPSIS_AHP_ELECTRE;
 public class Ahp {
     public static void main(String[] args){
         System.out.println("What is the fuck are you doing here?");
+        System.out.println("What is the hell");
     }
     
 }
