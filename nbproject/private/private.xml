@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/NguyenVanDung/Documents/NetBeansProjects/DecisionSystem/src/Frame/ChoosingMajor.java</file>
-            <file>file:/C:/Users/NguyenVanDung/Documents/NetBeansProjects/DecisionSystem/src/TOPSIS_AHP_ELECTRE/Ahp.java</file>
-            <file>file:/C:/Users/NguyenVanDung/Documents/NetBeansProjects/DecisionSystem/src/Frame/ChoosenMajorChoosingSchool.java</file>
-            <file>file:/C:/Users/NguyenVanDung/Documents/NetBeansProjects/DecisionSystem/src/src/DecisionSystem.java</file>
-            <file>file:/C:/Users/NguyenVanDung/Documents/NetBeansProjects/DecisionSystem/src/TOPSIS_AHP_ELECTRE/Electre.java</file>
+            <file>file:/C:/Users/NguyenVanDung/Documents/GitHub/DecisionSystem/src/Frame/MainFrame.java</file>
+            <file>file:/C:/Users/NguyenVanDung/Documents/GitHub/DecisionSystem/src/Frame/ChoosingMajor.java</file>
+            <file>file:/C:/Users/NguyenVanDung/Documents/GitHub/DecisionSystem/src/Frame/ChosenSchoolChoosingMajor.java</file>
+            <file>file:/C:/Users/NguyenVanDung/Documents/GitHub/DecisionSystem/src/Frame/ChoosenMajorChoosingSchool.java</file>
         </group>
     </open-files>
 </project-private>
