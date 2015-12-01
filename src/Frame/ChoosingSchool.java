@@ -97,63 +97,63 @@ public class ChoosingSchool extends javax.swing.JFrame {
         jLabel4.setText("Điểm đâu vào năm ngoái");
         jPanel2.add(jLabel4);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox1);
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Điểm đầu vào năm kia");
         jPanel2.add(jLabel5);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox2);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Điểm đầu vào 3 năm trước");
         jPanel2.add(jLabel6);
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox3);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Học phí");
         jPanel2.add(jLabel7);
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox4);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Học bổng");
         jPanel2.add(jLabel9);
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox5);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Chi phí sinh hoat");
         jPanel2.add(jLabel8);
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox7);
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Nhóm ngành");
         jPanel2.add(jLabel11);
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox6);
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Chất lượng đầu ra");
         jPanel2.add(jLabel10);
 
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox9);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Xa nhà");
         jPanel2.add(jLabel3);
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không ảnh hưởng" }));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox8);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 1));

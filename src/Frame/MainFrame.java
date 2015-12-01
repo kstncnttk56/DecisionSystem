@@ -55,12 +55,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         panel4 = new java.awt.Panel();
-        label13 = new java.awt.Label();
-        label12 = new java.awt.Label();
         jComboBox2 = new javax.swing.JComboBox();
-        label11 = new java.awt.Label();
         jComboBox3 = new javax.swing.JComboBox();
-        label14 = new java.awt.Label();
         panel5 = new java.awt.Panel();
         label17 = new java.awt.Label();
         jButton1 = new javax.swing.JButton();
@@ -162,24 +158,12 @@ public class MainFrame extends javax.swing.JFrame {
         panel3.add(jLabel3);
 
         panel4.setLayout(new java.awt.GridLayout(1, 4));
-        panel4.add(label13);
 
-        label12.setAlignment(java.awt.Label.CENTER);
-        label12.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        label12.setText("Chọn trường");
-        panel4.add(label12);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Chọn Trường", "Học Viện An Ninh Nhân Dân", "Học Viện Báo Chí – Tuyên Truyền", "Học Viên Chính Sách và Phát Triển", "Học Viện Công Nghệ Bưu Chính Viễn Thông ( Phía Bắc )", "Học Viện Kỹ Thuật Mật Mã", "Học Viện Ngân Hàng", "Học Viện Ngoại Giao", "Học Viện Tài Chính", "Học Điện Lực", "Khoa Luật – Đại Học Quốc Gia Hà Nội\t", "Khoa Y Dược ĐH QGHN", "Viện Đại Học Mở Hà Nội", "Đại Học Bách Khoa Hà Nội", "Đại học Công nghệ Giao thông vận tải", "Đại Học Công Nghệ – Đại Học Quốc Gia Hà Nội", "Đại Học Công Nghiệp Hà Nội", "Đại Học Công Nghiệp Việt Hung", "Đại Học Công Đoàn", "Đại Học Dầu Khí Việt Nam", "Đại Học Dược Hà Nội", "Đại Học Giao Thông Vận Tải ( Cơ sở Phía Bắc )", "Đại Học Hà Nội", "Đại Học Khoa Học Tự Nhiên", "Đại Học Khoa Học Tự Nhiên – Đại Học Quốc Gia Hà Nội", "Đại Học Khoa Học Xã Hội và Nhân Văn – Đại Học Quốc Gia Hà Nội", "Đại Học Kiến Trúc Hà Nội", "Đại Học Kinh Tế Kỹ Thuật Công Nghiệp", "Đại Học Kinh Tế Quốc Dân", "Đại Học Kinh Tế – Đại Học Quốc Gia Hà Nội", "Đại Học Lâm Nghiệp", "Đại Học Lâm Nghiệp ( Cơ sở 1 )", "Đại Học Lao Động – Xã Hội ( Cơ sở Hà Nội )", "Đại Học Lao Động – Xã Hội ( Cơ sở Sơn Tây )\t", "Đại Học Lao Động – Xã Hội ( Cơ sở Sơn Tây )", "Đại Học Luật Hà Nội", "Đại Học Mỏ Địa Chất", "Đại Học Ngoại Ngữ – Đại Học Quốc Gia Hà Nội\t", "Đại Học Ngoại Thương ( Cơ sở phía Bắc )\t", "Đại Học Ngoại Thương ( Cơ sở phía Bắc )", "Đại Học Nội Vụ", "Đại học Nông Nghiệp Hà Nội", "Đại Học Quốc Gia Hà Nội", "Đại Học Sư Phạm Hà Nội", "Đại học Tài Nguyên và Môi Trường Hà Nội", "Đại Học Thương Mại", "Đại Học Thủy Lợi ( Cơ sở 1 )", "Đại Học Văn Hóa Hà Nội", "Đại Học Y Hà Nội", "Đại Học Điện Lực" }));
         panel4.add(jComboBox2);
 
-        label11.setAlignment(java.awt.Label.CENTER);
-        label11.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        label11.setText("Chọn ngành");
-        panel4.add(label11);
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Chọn Ngành", "Báo Chí", "Công nghệ Hạt Nhân", "Công Nghệ Sinh Học", "Công Nghệ Thông Tin", "Dầu Khí", "Hóa Dược", "Kế Toán", "Khoa Học Môi Trường", "Kĩ Thuậ Cơ Khí", "Kĩ Thuật Xây Dựng Công Trình", "Kĩ Thuật Điện Điện Tử", "Luật", "Marketing", "Quản Trị Dịch Vụ Du Lịch Và Lữ Hành", "Quản Trị Kinh Doanh", "Quản Trị Nhân Lực", "Tài Chính Ngân Hàng", "Tiếng Nhật", "Văn Học", "Y Đa Khoa" }));
         panel4.add(jComboBox3);
-        panel4.add(label14);
 
         panel5.setLayout(new java.awt.GridLayout(1, 5));
         panel5.add(label17);
@@ -250,9 +234,12 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panel3, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-            .addComponent(panel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panel4, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +256,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(800, 435));
+        setSize(new java.awt.Dimension(839, 435));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -346,10 +333,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private java.awt.Label label1;
     private java.awt.Label label10;
-    private java.awt.Label label11;
-    private java.awt.Label label12;
-    private java.awt.Label label13;
-    private java.awt.Label label14;
     private java.awt.Label label15;
     private java.awt.Label label17;
     private java.awt.Label label2;

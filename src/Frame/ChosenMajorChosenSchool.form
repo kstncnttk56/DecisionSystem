@@ -146,13 +146,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox8">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -166,13 +167,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox1">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -186,13 +188,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox2">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -206,13 +209,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox3">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -226,13 +230,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox4">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -246,13 +251,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox5">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -266,13 +272,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox7">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -286,13 +293,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox6">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
@@ -306,13 +314,14 @@
         <Component class="javax.swing.JComboBox" name="jComboBox9">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="7">
                 <StringItem index="0" value="Quy&#x1ebf;t &#x111;&#x1ecb;nh"/>
                 <StringItem index="1" value="C&#x1ef1;c k&#xec; quan tr&#x1ecd;ng"/>
                 <StringItem index="2" value="R&#x1ea5;t quan tr&#x1ecd;ng"/>
                 <StringItem index="3" value="Quan tr&#x1ecd;ng"/>
                 <StringItem index="4" value="Kh&#xf4;ng quan tr&#x1ecd;ng l&#x1eaf;m"/>
-                <StringItem index="5" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
+                <StringItem index="5" value="Kh&#xf4;ng quan tr&#x1ecd;ng"/>
+                <StringItem index="6" value="Kh&#xf4;ng &#x1ea3;nh h&#x1b0;&#x1edf;ng"/>
               </StringArray>
             </Property>
           </Properties>
