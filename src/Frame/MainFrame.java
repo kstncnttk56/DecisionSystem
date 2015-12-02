@@ -1,16 +1,27 @@
 package Frame;
 
+import database.ConnectionFunction;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.jfree.ui.RefineryUtilities;
+import src.FrequencyChart;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author NguyenVanDung
  */
 public class MainFrame extends javax.swing.JFrame {
+
+    public static Connection con = null;
+    public static ResultSet rs = null;
+    public static PreparedStatement stm = null;
 
     /**
      * Creates new form MainFrame
@@ -169,12 +180,22 @@ public class MainFrame extends javax.swing.JFrame {
         panel5.add(label17);
 
         jButton1.setText("Trợ giúp");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         panel5.add(jButton1);
         panel5.add(label15);
 
         jMenu2.setText("Phổ điểm  khối");
 
         jMenuItem1.setText("Khối A");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseReleased(evt);
+            }
+        });
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -183,12 +204,27 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Khối B");
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem2MouseReleased(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuItem3.setText("Khối C");
+        jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem3MouseReleased(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Khối D");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem4MouseReleased(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuBar1.add(jMenu2);
@@ -196,24 +232,67 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu3.setText("Phổ điểm môn");
 
         jMenuItem5.setText("Toán");
+        jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem5MouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem5MouseReleased(evt);
+            }
+        });
         jMenu3.add(jMenuItem5);
 
         jMenuItem6.setText("Lí");
+        jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem6MouseReleased(evt);
+            }
+        });
         jMenu3.add(jMenuItem6);
 
         jMenuItem7.setText("Hóa");
+        jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem7MouseReleased(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuItem8.setText("Sinh");
+        jMenuItem8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem8MouseReleased(evt);
+            }
+        });
         jMenu3.add(jMenuItem8);
 
         jMenuItem9.setText("Anh");
+        jMenuItem9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem9MouseReleased(evt);
+            }
+        });
         jMenu3.add(jMenuItem9);
 
         jMenuItem10.setText("Văn");
+        jMenuItem10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem10MouseReleased(evt);
+            }
+        });
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem10);
 
         jMenuItem11.setText("Sử");
+        jMenuItem11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem11MouseReleased(evt);
+            }
+        });
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem11ActionPerformed(evt);
@@ -222,6 +301,11 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu3.add(jMenuItem11);
 
         jMenuItem12.setText("Địa");
+        jMenuItem12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem12MouseReleased(evt);
+            }
+        });
         jMenu3.add(jMenuItem12);
 
         jMenuBar1.add(jMenu3);
@@ -272,6 +356,72 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textField1ActionPerformed
 
+    private void jMenuItem5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MouseClicked
+
+    }//GEN-LAST:event_jMenuItem5MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        showPhoDiemMonToanQuoc(1, "toán");
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jMenuItem5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MouseReleased
+        showPhoDiemMonToanQuoc(1, "toán");
+
+    }//GEN-LAST:event_jMenuItem5MouseReleased
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem10MouseReleased
+        showPhoDiemMonToanQuoc(2, "văn học");
+    }//GEN-LAST:event_jMenuItem10MouseReleased
+
+    private void jMenuItem9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem9MouseReleased
+        showPhoDiemMonToanQuoc(3, "tiếng anh");
+    }//GEN-LAST:event_jMenuItem9MouseReleased
+
+    private void jMenuItem6MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem6MouseReleased
+        showPhoDiemMonToanQuoc(4, "vật lí");
+    }//GEN-LAST:event_jMenuItem6MouseReleased
+
+    private void jMenuItem7MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MouseReleased
+        showPhoDiemMonToanQuoc(5, "hóa học");
+    }//GEN-LAST:event_jMenuItem7MouseReleased
+
+    private void jMenuItem8MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem8MouseReleased
+        showPhoDiemMonToanQuoc(6, "sinh học");
+    }//GEN-LAST:event_jMenuItem8MouseReleased
+
+    private void jMenuItem11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem11MouseReleased
+        showPhoDiemMonToanQuoc(7, "lịch sử");
+    }//GEN-LAST:event_jMenuItem11MouseReleased
+
+    private void jMenuItem12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem12MouseReleased
+        showPhoDiemMonToanQuoc(8, "địa lí");
+    }//GEN-LAST:event_jMenuItem12MouseReleased
+
+    private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
+        String sql = "SELECT diem_thi.Toan + diem_thi.Ly + diem_thi.Hoa FROM `data`.diem_thi WHERE diem_thi.Toan > -1 AND diem_thi.Ly > -1 AND diem_thi.Hoa > -1";
+        showPhoDiemToanQuocTheoKhoi("A", sql);
+    }//GEN-LAST:event_jMenuItem1MouseReleased
+
+    private void jMenuItem2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseReleased
+        String sql = "SELECT diem_thi.Toan + diem_thi.Sinh + diem_thi.Hoa FROM `data`.diem_thi WHERE diem_thi.Toan > -1 AND diem_thi.Sinh > -1 AND diem_thi.Hoa > -1";
+        showPhoDiemToanQuocTheoKhoi("B", sql);
+    }//GEN-LAST:event_jMenuItem2MouseReleased
+
+    private void jMenuItem3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MouseReleased
+        String sql = "SELECT diem_thi.Van+diem_thi.Su+diem_thi.Dia FROM `data`.diem_thi WHERE  diem_thi.Van > -1 AND diem_thi.Su > -1 AND diem_thi.Dia > -1";
+        showPhoDiemToanQuocTheoKhoi("C", sql);
+    }//GEN-LAST:event_jMenuItem3MouseReleased
+
+    private void jMenuItem4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseReleased
+        String sql = "SELECT diem_thi.Toan+diem_thi.Van+diem_thi.NgoaiNgu FROM `data`.diem_thi WHERE  diem_thi.Toan > -1 AND diem_thi.Van > -1 AND diem_thi.NgoaiNgu > -1 ";
+        showPhoDiemToanQuocTheoKhoi("D", sql);
+    }//GEN-LAST:event_jMenuItem4MouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -303,10 +453,79 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
+                queryDatabase();
+
             }
         });
     }
 
+    public void showPhoDiemToanQuocTheoKhoi(String khoi, String sql) {
+        //String sql = "SELECT diem_thi.Toan + diem_thi.Ly + diem_thi.Hoa FROM `data`.diem_thi WHERE diem_thi.Toan > -1 AND diem_thi.Ly > -1 AND diem_thi.Hoa > -1";
+        float[] data = new float[21];
+        try {
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+
+            float temp = 0;
+            while (rs.next()) {
+                temp = Float.parseFloat(rs.getString(1));
+                temp = 2 * (temp / 3);
+                data[(int) temp]++;
+
+            }
+
+            String headTitle = "Phổ điểm khối " + khoi;
+            String title = "Phổ điểm khối " + khoi + " trên toàn quốc";
+            FrequencyChart chart = new FrequencyChart(headTitle, title, data);
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+    public void showPhoDiemMonToanQuoc(int monhoc, String tenmon) {
+
+        float[] data = new float[21];
+        String sql = "SELECT * FROM data.pho_dai_hoc_toan_quoc WHERE ID_mon_thi = " + String.valueOf(monhoc);
+        try {
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+
+            while (rs.next()) {
+                for (int i = 0; i < 21; i++) {
+                    data[i] = Float.parseFloat(rs.getString(i + 2));
+                }
+            }
+
+            String headTitle = "Phổ điểm " + tenmon;
+            String title = "Phổ điểm " + tenmon + " toàn quốc";
+            FrequencyChart chart = new FrequencyChart(headTitle, title, data);
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public static void queryDatabase() {
+        try {
+            con = ConnectionFunction.getConnection();
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
