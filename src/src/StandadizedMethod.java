@@ -19,9 +19,9 @@ public class StandadizedMethod {
     //name là tên phương pháp
     //value là mảng giá trị cần được chuẩn hóa
     //name      phuong phap
-    //1         thuộc tính giá chia cho tong
-    //2         thuoc tin gia chia cho tong binh phuong
-    //3         thuoc tin gia chia cho max
+    //1         thuộc tính loi nhuan chia cho tong
+    //2         thuoc tin loi nhuan chia cho tong binh phuong
+    //3         thuoc tin loi nhuan chia cho max
     //-1        bien doi max - aij roif dung 1
     //-2        bien doi max - aij roif dung 2
     //-3        bien doi max - aij roif dung 3

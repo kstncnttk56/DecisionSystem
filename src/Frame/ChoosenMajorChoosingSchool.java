@@ -5,11 +5,47 @@
  */
 package Frame;
 
+import static Frame.MainFrame.con;
+import static Frame.MainFrame.rs;
+import static Frame.MainFrame.stm;
+import database.ConnectionFunction;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.jfree.ui.RefineryUtilities;
+import src.AssignmentManager;
+import src.FrequencyChart;
+import src.weightManager;
+
 /**
  *
  * @author NguyenVanDung
  */
 public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
+
+    //Hai mảng lưu trữ giá trị mức độ quan trọng của các thuộc tính và mức độ yêu
+    //thích các phương án
+    public String[] importance = new String[6];
+    public String[] prefer = new String[17];
+
+    //Mảng lưu giữ các cột của mảng
+    float[] diemDauVao;
+    float[] diemNamNgoai;
+    float[] diem2NamTruoc;
+    float[] diem3NamTruoc;
+    float[] tiLeCaoHon;
+    float[] xuHuong;
+    int N = 17; //Số lượng các trường đại học
+
+    //Biến xử lý truy vấn xữ liệu
+    public static Connection con = null;
+    public static ResultSet rs = null;
+    public static PreparedStatement stm = null;
 
     /**
      * Creates new form ChoosingSchool
@@ -30,15 +66,15 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox();
-        jComboBox9 = new javax.swing.JComboBox();
+        jcomboCol = new javax.swing.JComboBox();
+        jcomboColAtt = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
         jCheckBox2 = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
-        jComboBox24 = new javax.swing.JComboBox();
-        jComboBox26 = new javax.swing.JComboBox();
+        jcomboRow = new javax.swing.JComboBox();
+        jcomboRowAtt = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -50,13 +86,12 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,11 +104,21 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 2));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox4);
+        jcomboCol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Điểm đầu vào hiện tại", "Điểm đầu vào năm ngoái", "Điểm đầu vào năm kia", "Điểm đầu vào năm kìa", "Phổ điểm", "Xu hướng điểm đầu vào" }));
+        jcomboCol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcomboColItemStateChanged(evt);
+            }
+        });
+        jcomboCol.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcomboColMouseClicked(evt);
+            }
+        });
+        jPanel2.add(jcomboCol);
 
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox9);
+        jcomboColAtt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
+        jPanel2.add(jcomboColAtt);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 1));
 
@@ -89,16 +134,21 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.GridLayout(1, 2));
 
-        jComboBox24.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jComboBox24.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox24ActionPerformed(evt);
+        jcomboRow.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Học Viện An Ninh Nhân Dân", "Học Viện Công Nghệ Bưu Chính Viễn Thông ( Phía Bắc )", "Đại học Tài Nguyên và Môi Trường Hà Nội", "Đại Học Bách Khoa Hà Nội", "Đại Học Hà Nội", "Đại Học Giao Thông Vận Tải ( Cơ sở Phía Bắc )", "Đại Học Điện Lực", "Học Viện Kỹ Thuật Mật Mã", "Đại Học Sư Phạm Hà Nội", "Đại Học Kinh Tế Kỹ Thuật Công Nghiệp", "Viện Đại Học Mở Hà Nội", "Đại Học Thủy Lợi ( Cơ sở 1 )", "Đại Học Mỏ Địa Chất", "Đại học Nông Nghiệp Hà Nội", "Đại Học Lâm Nghiệp ( Cơ sở 1 )", "Đại Học Công Nghiệp Việt Hung", "Đại Học Công Nghiệp Hà Nội" }));
+        jcomboRow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcomboRowMouseClicked(evt);
             }
         });
-        jPanel6.add(jComboBox24);
+        jcomboRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcomboRowActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jcomboRow);
 
-        jComboBox26.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox26);
+        jcomboRowAtt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
+        jPanel6.add(jcomboRowAtt);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -117,14 +167,14 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(273, 273, 273))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(141, 141, 141))
         );
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 3));
@@ -132,12 +182,27 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton1.setText("Trợ giúp");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jPanel7.add(jButton1);
         jPanel7.add(jLabel12);
 
         jButton2.setText("Xác nhận");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setText("Xác nhận");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -161,9 +226,21 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jMenu4.setText("Xu hướng");
+
+        jMenuItem4.setText("IT");
+        jMenu4.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu4);
+
         jMenu1.setText("Bảng dữ liệu");
 
         jMenuItem1.setText("Bảng dữ liệu");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseReleased(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Bảng dữ liệu đã nhân trọng số");
@@ -173,16 +250,6 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu4.setText("Xu hướng");
-
-        jMenuItem4.setText("IT");
-        jMenu4.add(jMenuItem4);
-
-        jMenuItem5.setText("Kĩ thuật vật liệu");
-        jMenu4.add(jMenuItem5);
-
-        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -202,8 +269,8 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 382, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 379, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +287,7 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(248, 248, 248))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,13 +300,198 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox24ActionPerformed
+    private void jcomboRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomboRowActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox24ActionPerformed
+    }//GEN-LAST:event_jcomboRowActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        int pos = jcomboCol.getSelectedIndex();
+        String str = jcomboColAtt.getSelectedItem().toString();
+        importance[pos] = str;
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jcomboColMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcomboColMouseClicked
+        jcomboCol.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String str = importance[jcomboCol.getSelectedIndex()];
+                jcomboColAtt.setSelectedItem(str);
+            }
+        });
+    }//GEN-LAST:event_jcomboColMouseClicked
+
+    private void jcomboColItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcomboColItemStateChanged
+
+    }//GEN-LAST:event_jcomboColItemStateChanged
+
+    private void jcomboRowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcomboRowMouseClicked
+        jcomboRow.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String str = prefer[jcomboRow.getSelectedIndex()];
+                jcomboRowAtt.setSelectedItem(str);
+            }
+        });
+
+    }//GEN-LAST:event_jcomboRowMouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        int pos = jcomboRow.getSelectedIndex();
+        String str = jcomboRowAtt.getSelectedItem().toString();
+        prefer[pos] = str;
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        getRawData();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
+
+
+    }//GEN-LAST:event_jMenuItem1MouseReleased
+
+    //Ham danh gia xu huong tang hay giam diem
+    private float linearRegression(float[] x, float[] y) {
+        int n = x.length;
+        // first pass: read in data, compute xbar and ybar
+        float sumx = 0;
+        float sumy = 0;
+        float sumx2 = 0;
+
+        for (int i = 0; i < n; i++) {
+            sumx += x[i];
+            sumx2 += x[i] * x[i];
+            sumy += y[i];
+        }
+
+        float xbar = sumx / n;
+        float ybar = sumy / n;
+
+        // second pass: compute summary statistics
+        float xxbar = 0;
+        float yybar = 0;
+        float xybar = 0;
+
+        for (int i = 0;
+                i < n;
+                i++) {
+            xxbar += (x[i] - xbar) * (x[i] - xbar);
+            yybar += (y[i] - ybar) * (y[i] - ybar);
+            xybar += (x[i] - xbar) * (y[i] - ybar);
+        }
+        float beta1 = xybar / xxbar;
+        float beta0 = ybar - beta1 * xbar;
+
+        return beta1;
+    }
+
+    //Hàm xử lý lấy dữ liệu thô
+    public void getRawData() {
+        String sql = "";
+        //Lay du lie hien tai
+        sql = "SELECT `data`.diem_dau_vao.now\n"
+                + "FROM `data`.diem_dau_vao";
+        diemDauVao = getData(sql, N);
+        //Lay diem nam ngoai
+        sql = "SELECT `data`.choosing_university.last_score\n"
+                + "FROM `data`.choosing_university\n"
+                + "WHERE `data`.choosing_university.major  = \"Công Nghệ Thông Tin\"";
+        diemNamNgoai = getData(sql, N);
+        //Lay diem 2 nam truoc
+        sql = "SELECT `data`.choosing_university.last_2_year_score\n"
+                + "FROM `data`.choosing_university\n"
+                + "WHERE `data`.choosing_university.major  = \"Công Nghệ Thông Tin\"";
+        diem2NamTruoc = getData(sql, N);
+        //Lay diem 3 nam truoc
+        sql = "SELECT `data`.choosing_university.last_3_year_score\n"
+                + "FROM `data`.choosing_university\n"
+                + "WHERE `data`.choosing_university.major  = \"Công Nghệ Thông Tin\"";
+        diem3NamTruoc = getData(sql, N);
+        //Lay ti le sinh vien co diem cao hon
+        tiLeCaoHon = new float[N];
+        for (int i = 0; i < N; i++) {
+            tiLeCaoHon[i] = (float) 0.5;
+        }
+        //Lay du lieu ve xu huong diem dau ra va dau vao
+        xuHuong = getTrend(N);
+    }
+
+    public float[] getTrend(int length) {
+        String sql = "SELECT *\n"
+                + "FROM `data`.diem_dau_va";
+
+        float[] data = new float[length];
+        int numCol = 10;
+        float[] yy = new float[numCol];
+
+        float[] xx = new float[numCol];
+        for (int i = 0; i < numCol; i++) {
+            xx[i] = i;
+        }
+        try {
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+            int index = 0;
+            while (rs.next()) {
+                for (int i = 0; i < numCol; i++) {
+                    yy[i] = Float.parseFloat(rs.getString(i + 3));
+                }
+                data[index] = linearRegression(xx, yy);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return data;
+    }
+
+    public float[] getData(String sql, int length) {
+        //Lay diem dau vao
+        float[] data = new float[length];
+        try {
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+            int index = 0;
+            while (rs.next()) {
+                data[index] = Float.parseFloat(rs.getString(1));
+                index++;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return data;
+    }
+
+    //Hàm xử lý lấy dữ liệu đã nhân trọng số
+    public void getWeightedData() {
+        weightManager manager = new weightManager(
+                importance,
+                AssignmentManager.importance,
+                AssignmentManager.importance_value,
+                prefer,
+                AssignmentManager.loveLevel,
+                AssignmentManager.lovelevel_value);
+
+        float[] importanceWeight = manager.getImportanceWeight();
+        float[] preferWeight = manager.getPreferWeight();
+
+    }
+
+    //Hàm tạo kết nối cơ sở dữ liệu
+    public static void queryDatabase() {
+        try {
+            con = ConnectionFunction.getConnection();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -255,16 +507,21 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoosenMajorChoosingSchool.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -286,7 +543,15 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ChoosenMajorChoosingSchool().setVisible(true);
+                ChoosenMajorChoosingSchool chose = new ChoosenMajorChoosingSchool();
+                chose.queryDatabase();
+                for (int i = 0; i < chose.importance.length; i++) {
+                    chose.importance[i] = "Quan trọng";
+                }
+                for (int i = 0; i < chose.prefer.length; i++) {
+                    chose.prefer[i] = "Thích";
+                }
+                chose.setVisible(true);
             }
         });
     }
@@ -297,10 +562,6 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox jComboBox24;
-    private javax.swing.JComboBox jComboBox26;
-    private javax.swing.JComboBox jComboBox4;
-    private javax.swing.JComboBox jComboBox9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -311,7 +572,6 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -322,5 +582,9 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox jcomboCol;
+    private javax.swing.JComboBox jcomboColAtt;
+    private javax.swing.JComboBox jcomboRow;
+    private javax.swing.JComboBox jcomboRowAtt;
     // End of variables declaration//GEN-END:variables
 }
