@@ -13,5 +13,4 @@ public class Ahp {
     public static void main(String[] args){
        
     }
-    
 }

@@ -5,11 +5,66 @@
  */
 package Frame;
 
+import static Frame.ChoosenMajorChoosingSchool.con;
+import static Frame.ChoosenMajorChoosingSchool.rs;
+import static Frame.ChoosenMajorChoosingSchool.stm;
+import database.ConnectionFunction;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import src.AssignmentManager;
+import src.StandadizedMethod;
+import src.weightManager;
+
 /**
  *
  * @author NguyenVanDung
  */
 public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
+
+    public String[] importance = new String[6];
+    public String[] prefer = new String[17];
+
+    public float[] imWeight;
+    public float[] preWeight;
+
+    float[] diemDauVao;
+    float[] diemNamNgoai;
+    float[] diem2NamTruoc;
+    float[] diem3NamTruoc;
+    float[] tiLeThapHon;
+    float[] xuHuong;
+    int N = 17;
+
+    public static Connection con = null;
+    public static ResultSet rs = null;
+    public static PreparedStatement stm = null;
+
+    public static float[] stantadizedData;
+    public static float[] weightedData;
+
+    public static String[] university = {
+        "Học Viện An Ninh Nhân Dân",
+        "Học Viện Công Nghệ Bưu Chính Viễn Thông(Phía Bắc)",
+        "Đại học Tài Nguyên và Môi Trường Hà Nội",
+        "Đại Học Bách Khoa Hà Nội",
+        "Đại Học Hà Nội",
+        "Đại Học Giao Thông Vận Tải ( Cơ sở Phía Bắc )",
+        "Đại Học Điện Lực",
+        "Học Viện Kỹ Thuật Mật Mã",
+        "Đại Học Sư Phạm Hà Nội",
+        "Đại Học Kinh Tế Kỹ Thuật Công Nghiệp",
+        "Viện Đại Học Mở Hà Nội",
+        "Đại Học Thủy Lợi ( Cơ sở 1 )",
+        "Đại Học Mỏ Địa Chất",
+        "Đại học Nông Nghiệp Hà Nội",
+        "Đại Học Lâm Nghiệp ( Cơ sở 1 )",
+        "Đại Học Công Nghiệp Việt Hung",
+        "Đại Học Công Nghiệp Hà Nội"
+    };
 
     /**
      * Creates new form ChoosingSchool
@@ -30,45 +85,15 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jComboBox8 = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jLabel6 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox();
-        jLabel7 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox();
-        jLabel9 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBox7 = new javax.swing.JComboBox();
-        jLabel11 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox();
-        jLabel10 = new javax.swing.JLabel();
-        jComboBox9 = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
         jCheckBox2 = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
         jComboBox19 = new javax.swing.JComboBox();
-        jLabel23 = new javax.swing.JLabel();
         jComboBox20 = new javax.swing.JComboBox();
-        jLabel24 = new javax.swing.JLabel();
-        jComboBox21 = new javax.swing.JComboBox();
-        jLabel25 = new javax.swing.JLabel();
-        jComboBox22 = new javax.swing.JComboBox();
-        jLabel26 = new javax.swing.JLabel();
-        jComboBox23 = new javax.swing.JComboBox();
-        jLabel27 = new javax.swing.JLabel();
-        jComboBox24 = new javax.swing.JComboBox();
-        jLabel28 = new javax.swing.JLabel();
-        jComboBox25 = new javax.swing.JComboBox();
-        jLabel29 = new javax.swing.JLabel();
-        jComboBox26 = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -91,73 +116,16 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Chọn Ngành Trường Bách  Khoa Hà Nội");
+        jLabel1.setText("Chọn Ngành IT Trường Bách  Khoa Hà Nội");
         jPanel1.add(jLabel1);
 
-        jPanel2.setLayout(new java.awt.GridLayout(9, 2));
-
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Điểm đầu vào hiện tại");
-        jPanel2.add(jLabel3);
+        jPanel2.setLayout(new java.awt.GridLayout(1, 2));
 
         jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox8);
 
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Điểm đâu vào năm ngoái");
-        jPanel2.add(jLabel4);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox1);
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Điểm đầu vào năm kia");
-        jPanel2.add(jLabel5);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox2);
-
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Điểm đầu vào 3 năm trước");
-        jPanel2.add(jLabel6);
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox3);
-
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Phổ điểm");
-        jPanel2.add(jLabel7);
-
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
         jPanel2.add(jComboBox4);
-
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Xu hướng rút nộp hồ sơ");
-        jPanel2.add(jLabel9);
-
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox5);
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("..........");
-        jPanel2.add(jLabel8);
-
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox7);
-
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("..........");
-        jPanel2.add(jLabel11);
-
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox6);
-
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("..........");
-        jPanel2.add(jLabel10);
-
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quyết định", "Cực kì quan trọng", "Rất quan trọng", "Quan trọng", "Không quan trọng lắm", "Không quan trọng", "Không ảnh hưởng" }));
-        jPanel2.add(jComboBox9);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 1));
 
@@ -171,63 +139,13 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
         jCheckBox1.setText("Mức độ yêu thích");
         jPanel5.add(jCheckBox1);
 
-        jPanel6.setLayout(new java.awt.GridLayout(8, 2));
-
-        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("IT");
-        jPanel6.add(jLabel22);
+        jPanel6.setLayout(new java.awt.GridLayout(1, 2));
 
         jComboBox19.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
         jPanel6.add(jComboBox19);
 
-        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel23.setText("Kĩ thuật vật liệu");
-        jPanel6.add(jLabel23);
-
         jComboBox20.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
         jPanel6.add(jComboBox20);
-
-        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel24.setText("..........");
-        jPanel6.add(jLabel24);
-
-        jComboBox21.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox21);
-
-        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel25.setText("..........");
-        jPanel6.add(jLabel25);
-
-        jComboBox22.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox22);
-
-        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setText("..........");
-        jPanel6.add(jLabel26);
-
-        jComboBox23.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox23);
-
-        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel27.setText("..........");
-        jPanel6.add(jLabel27);
-
-        jComboBox24.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox24);
-
-        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setText("..........");
-        jPanel6.add(jLabel28);
-
-        jComboBox25.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox25);
-
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setText("..........");
-        jPanel6.add(jLabel29);
-
-        jComboBox26.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
-        jPanel6.add(jComboBox26);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -246,11 +164,11 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
         );
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 3));
@@ -295,13 +213,13 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 362, Short.MAX_VALUE)
+                    .addGap(0, 384, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
@@ -314,17 +232,17 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(168, 168, 168)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(252, Short.MAX_VALUE)))
+                    .addGap(172, 172, 172)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(412, Short.MAX_VALUE)))
         );
 
         pack();
@@ -372,47 +290,177 @@ public class ChosenSchoolChoosingMajor extends javax.swing.JFrame {
         });
     }
 
+    public void getRawData() {
+        String sql = "";
+        //Lay du lie hien tai
+        sql = "SELECT `data`.diem_dau_vao.t10\n"
+                + "FROM `data`.diem_dau_vao";
+        diemDauVao = getData(sql, N);
+        //Lay diem nam ngoai
+        sql = "SELECT `data`.choosing_university.last_score\n"
+                + "FROM `data`.choosing_university\n"
+                + "WHERE `data`.choosing_university.id < 18";
+        diemNamNgoai = getData(sql, N);
+        //Lay diem 2 nam truoc
+        sql = "SELECT `data`.choosing_university.last_2_year_score\n"
+                + "FROM `data`.choosing_university\n"
+                + "WHERE `data`.choosing_university.id < 18";
+        diem2NamTruoc = getData(sql, N);
+        //Lay diem 3 nam truoc
+        sql = "SELECT `data`.choosing_university.last_3_year_score\n"
+                + "FROM `data`.choosing_university\n"
+                + "WHERE `data`.choosing_university.id < 18";
+        diem3NamTruoc = getData(sql, N);
+        //Lay ti le sinh vien co diem cao hon
+        tiLeThapHon = new float[N];
+        float sum = 0;
+        float thap = 0;
+        float stopPositon = MainFrame.diemKhoiA * 2;
+        for (int i = 0; i < N; i++) {
+            sql = "SELECT `data`.sinh_vien_muc_diem.truong" + String.valueOf(i + 1) + "\n"
+                    + "FROM `data`.sinh_vien_muc_diem";
+
+            try {
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                int index = 0;
+                while (rs.next()) {
+                    sum += Float.parseFloat(rs.getString(1));
+                    if (index < stopPositon) {
+                        thap = sum;
+                        index++;
+                    }
+                }
+                tiLeThapHon[i] = thap / sum;
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+
+        }
+    }
+
+    //Lay diem dau vao cua cac truong qua cac nam truoc day
+    public float[] getData(String sql, int length) {
+        //Lay diem dau vao
+        float[] data = new float[length];
+        try {
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+            int index = 0;
+            while (rs.next()) {
+                data[index] = Float.parseFloat(rs.getString(1));
+                index++;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return data;
+    }
+//Hàm xử lý lấy dữ liệu đã nhân trọng số
+
+    public void getWeightedData() {
+        weightManager manager = new weightManager(
+                importance,
+                AssignmentManager.importance,
+                AssignmentManager.importance_value,
+                prefer,
+                AssignmentManager.loveLevel,
+                AssignmentManager.lovelevel_value);
+
+        float[] importanceWeight = manager.getImportanceWeight();
+        float[] preferWeight = manager.getPreferWeight();
+
+    }
+
+    //Hàm tạo kết nối cơ sở dữ liệu
+    public static void queryDatabase() {
+        try {
+            con = ConnectionFunction.getConnection();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void weighProcessing() {
+        weightManager manager = new weightManager(
+                importance,
+                AssignmentManager.importance,
+                AssignmentManager.importance_value,
+                prefer,
+                AssignmentManager.loveLevel,
+                AssignmentManager.lovelevel_value
+        );
+
+        imWeight = manager.getImportanceWeight();
+        preWeight = manager.getPreferWeight();
+    }
+//Chuan hoa bang du lieu tho
+//Tra lai bang du lieu da chuan hoa
+
+   
+
+    public void showTable(float[] table, int row, int column) {
+        //Tao ten cot
+        Vector col = new Vector();
+        col.addElement("Điểm đầu vào");
+        col.addElement("Điểm năm ngoái");
+        col.addElement("Điểm năm kia");
+        col.addElement("Điểm 3 năm trước");
+        col.addElement("Tỉ lệ cao điểm hơn");
+        col.addElement("Xu hướng điểm");
+        //Tao vector data
+        Vector data = new Vector();
+
+        for (int i = 0; i < row; i++) {
+            Vector vv = new Vector();
+            for (int j = 0; j < column; j++) {
+                vv.addElement(table[i * column + j]);
+            }
+            data.add(vv);
+        }
+
+        jTable1.setModel(new DefaultTableModel(data, col));
+
+    }
+
+    //Nhan du lieu bang voi bo trong so
+    public float[] getWeightData(float[] data, float[] importance, float[] prefer) {
+        int row = prefer.length;
+        int col = importance.length;
+        //Nhân bộ trọng số sở thích
+        if (jCheckBox1.isSelected()) {
+            for (int i = 0; i < row; i++) {
+                for (int t = i * col; t < (i + 1) * col; t++) {
+                    data[t] = prefer[i] * data[t];
+                }
+            }
+        }
+
+        //Nhân bộ trọng số quan trọng các thuộc tính
+        if (jCheckBox2.isSelected()) {
+            for (int i = 0; i < data.length; i++) {
+                int r = i % col;
+                data[i] *= importance[r];
+            }
+        }
+        return data;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox19;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox20;
-    private javax.swing.JComboBox jComboBox21;
-    private javax.swing.JComboBox jComboBox22;
-    private javax.swing.JComboBox jComboBox23;
-    private javax.swing.JComboBox jComboBox24;
-    private javax.swing.JComboBox jComboBox25;
-    private javax.swing.JComboBox jComboBox26;
-    private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
-    private javax.swing.JComboBox jComboBox5;
-    private javax.swing.JComboBox jComboBox6;
-    private javax.swing.JComboBox jComboBox7;
     private javax.swing.JComboBox jComboBox8;
-    private javax.swing.JComboBox jComboBox9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;

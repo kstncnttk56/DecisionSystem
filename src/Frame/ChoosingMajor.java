@@ -29,7 +29,6 @@ public class ChoosingMajor extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
@@ -89,9 +88,6 @@ public class ChoosingMajor extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Chọn Ngành");
         jPanel1.add(jLabel1);
-
-        jButton2.setText("jButton2");
-        jPanel1.add(jButton2);
 
         jPanel2.setLayout(new java.awt.GridLayout(9, 2));
 
@@ -350,7 +346,6 @@ public class ChoosingMajor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox jComboBox1;

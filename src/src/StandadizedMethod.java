@@ -26,7 +26,7 @@ public class StandadizedMethod {
     //-2        bien doi max - aij roif dung 2
     //-3        bien doi max - aij roif dung 3
     //0         dung phuong phap cho thuoc tinh khong tuyen tinh
-    public float[] standadize(byte name, float[] value, float best) {  /* do soemthing here*/
+    public float[] standadize(int name, float[] value, float best) {  /* do soemthing here*/
 
         switch (name) {
             case 1:

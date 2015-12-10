@@ -27,6 +27,9 @@ public class AssignmentManager {
     public static final String[] loveLevel = {"Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét"};
     public static final float[] lovelevel_value = {(float) 100, (float) 8, (float) 6, (float) 4, (float) 2, (float) 0};
 
+    public static final String[] trending = {"Tăng nhanh", "Tăng chậm", "Ổn định", "Giảm chậm", "Giảm nhanh"};
+    public static final float[] trending_value = {(float) 10, (float) 8, (float) 6, (float) 4, (float) 2, (float) 0};
+
     //Khai báo các bộ gán tại đây..Có thể mở rộng tùy ý
     public static float Assign(String type, String value) {
         if (type.compareTo("job") == 0) {
@@ -52,7 +55,7 @@ public class AssignmentManager {
                 }
             }
         }
-        
+
         if (type.compareTo("importance") == 0) {
             for (int i = 0; i < importance.length; i++) {
                 if (importance[i].compareTo(value) == 0) {
@@ -60,7 +63,7 @@ public class AssignmentManager {
                 }
             }
         }
-        
+
         if (type.compareTo("lovelevel") == 0) {
             for (int i = 0; i < loveLevel.length; i++) {
                 if (loveLevel[i].compareTo(value) == 0) {
@@ -68,7 +71,14 @@ public class AssignmentManager {
                 }
             }
         }
-        
+
+        if (type.compareTo("trend") == 0) {
+            for (int i = 0; i < trending.length; i++) {
+                if (trending[i].compareTo(value) == 0) {
+                    return trending_value[i];
+                }
+            }
+        }
 
         return 0;
     }

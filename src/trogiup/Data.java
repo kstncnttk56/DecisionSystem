@@ -13,6 +13,7 @@ public class Data {
     final int NumberOfScoreLevels = 30*2+1;//from 0 to 30 with step 0.5
     double ChoosingIT_Rate;
     final int[][] ScoreLevelTable = new int[NumberOfUniversity][NumberOfScoreLevels];
+    /*
     float [][] TrendTable = new float[][]{
         {18.0f, 18.0f, 19.0f, 17.5f, 17.5f, 19.0f, 19.5f, 18.0f, 17.5f, 17.5f},
         {19.0f, 19.0f, 18.0f, 18.0f, 18.0f, 19.5f, 18.5f, 17.5f, 18.5f, 19.0f},
@@ -32,6 +33,8 @@ public class Data {
         {19.5f, 18.5f, 17.5f, 18.0f, 18.5f, 19.0f, 18.5f, 18.5f, 17.5f, 18.5f},
         {19.0f, 19.5f, 17.5f, 17.5f, 19.0f, 17.5f, 19.0f, 18.5f, 19.5f, 18.0f}
     };
+    */
+   float [][] TrendTable = new float[NumberOfUniversity][NumberOfTimes];
     int[] targetNumberOfStudents=new int[NumberOfUniversity];
     public void connectDatabase(String user_name,String password,String database)
     {   try
@@ -45,7 +48,33 @@ public class Data {
             System.out.println(ex.getMessage());
         }
     }
-    
+    public void initTrendTable() throws SQLException
+    {
+        if(!conn.isClosed())
+        {
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM data.diem_dau_vao"); 
+            int i=0;
+            while(result.next())
+            {
+                TrendTable[i][0]=result.getInt("t1");
+                TrendTable[i][1]=result.getInt("t2");
+                TrendTable[i][2]=result.getInt("t3");
+                TrendTable[i][3]=result.getInt("t4");
+                TrendTable[i][4]=result.getInt("t5");
+                TrendTable[i][5]=result.getInt("t6");
+                TrendTable[i][6]=result.getInt("t7");
+                TrendTable[i][7]=result.getInt("t8");
+                TrendTable[i][8]=result.getInt("t9");
+                TrendTable[i][9]=result.getInt("t10");
+                i++;
+            }
+        }
+        else
+        {
+            System.out.println("Database is not open yet");
+        }
+    }
     public void initScoreLevel() throws SQLException
     {
         if(!conn.isClosed())
@@ -110,6 +139,8 @@ public class Data {
     
     public void changeTrendTable()
     {
+        //System.out.println("TrendTable");
+        //printTrendTable();
         for(int i=0; i<NumberOfUniversity;i++)
         {
             for (int j=0; j<NumberOfTimes-1;j++)
@@ -117,7 +148,8 @@ public class Data {
                 TrendTable[i][j]=TrendTable[i][j+1];
             }
         }
-        makeTargetNumberOfStudents();
+        //System.out.println("TrendTable");
+        //printTrendTable();
         int temp_num;
         for(int i=0; i<NumberOfUniversity; i++)
         {
@@ -133,6 +165,7 @@ public class Data {
             }
             TrendTable[i][9]=(float)j/2;
         }
+                
     }
     
     public void saveTrendTable() throws SQLException
@@ -140,10 +173,10 @@ public class Data {
         if(!conn.isClosed())
         {
             Statement statement = conn.createStatement();
-            statement.execute("TRUNCATE data.diem_dau_vao_viet");
+            statement.execute("TRUNCATE data.diem_dau_vao");
             for(int i=0; i<NumberOfUniversity; i++)
             {
-                statement.executeUpdate("INSERT INTO data.diem_dau_vao_viet(t1,t2,t3,t4,t5,t6,t7,t8,t9,t10) VALUES("
+                statement.executeUpdate("INSERT INTO data.diem_dau_vao(t1,t2,t3,t4,t5,t6,t7,t8,t9,t10) VALUES("
                         +TrendTable[i][0]+","
                         +TrendTable[i][1]+","
                         +TrendTable[i][2]+","
@@ -264,15 +297,21 @@ public class Data {
     {
         connectDatabase("root","","data");
         setChoosingITRate(0.5);
+        initTrendTable();
+        System.out.println("Trend Table");
+        printTrendTable();
         initScoreLevel();
-        changeApplication(100);
+        makeTargetNumberOfStudents();
+        changeApplication(1000);
+        System.out.println("Trend Table");
+        printTrendTable();
         changeTrendTable();
         saveTrendTable();
         saveScoreLevelTable();
         System.out.println("Trend Table");
         printTrendTable();
-        System.out.println("ScoreLevelTable");
-        printScoreLevelTable();
+        //System.out.println("ScoreLevelTable");
+        //printScoreLevelTable();
         closeDatabase();
         System.out.println("done");
     }

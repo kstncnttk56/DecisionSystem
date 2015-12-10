@@ -11,17 +11,17 @@ import org.jfree.ui.RefineryUtilities;
 
 public class FrequencyChart extends ApplicationFrame {
 
-    public FrequencyChart(String applicationTitle, String chartTitle, float[] value) {
+    public FrequencyChart(String applicationTitle, String chartTitle, float[] value,String tung,String hoanh) {
         super(applicationTitle);
         //type 1 :error, type 2 : wave file type 3: coefficient
         DefaultCategoryDataset dataset
                 = new DefaultCategoryDataset();
 
-        dataset = (DefaultCategoryDataset) createDataset(value);
+        dataset = (DefaultCategoryDataset) createDataset(value,"tần suất");
         JFreeChart barChart = ChartFactory.createBarChart(
                 chartTitle,
-                "Khoảng",
-                "Số lượng",
+                tung,
+                hoanh,
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
@@ -31,11 +31,11 @@ public class FrequencyChart extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
-    private CategoryDataset createDataset(float[] value) {
+    private CategoryDataset createDataset(float[] value,String tile) {
         final DefaultCategoryDataset dataset
                 = new DefaultCategoryDataset();
 
-        String mytitle = "tần suất";
+        String mytitle = tile;
 
         for (int i = 0; i < value.length; i++) {
             dataset.addValue(value[i], mytitle, String.valueOf(i));
@@ -46,7 +46,7 @@ public class FrequencyChart extends ApplicationFrame {
 
     public static void main(String[] args) {
         float[] Value = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 2, 3, 4, 5, 6, 7, 8, 90};
-        FrequencyChart chart = new FrequencyChart("dung", "nguyen van", Value);
+        FrequencyChart chart = new FrequencyChart("dung", "nguyen van", Value,"khoảng","số lượng");
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);

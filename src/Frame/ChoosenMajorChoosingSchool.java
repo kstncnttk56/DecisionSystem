@@ -8,6 +8,8 @@ package Frame;
 import static Frame.MainFrame.con;
 import static Frame.MainFrame.rs;
 import static Frame.MainFrame.stm;
+import TOPSIS_AHP_ELECTRE.Electre;
+import TOPSIS_AHP_ELECTRE.Topsis;
 import database.ConnectionFunction;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -17,10 +19,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.ui.RefineryUtilities;
 import src.AssignmentManager;
 import src.FrequencyChart;
+import src.StandadizedMethod;
 import src.weightManager;
+import trogiup.Data;
 
 /**
  *
@@ -33,12 +40,15 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     public String[] importance = new String[6];
     public String[] prefer = new String[17];
 
+    public float[] imWeight;
+    public float[] preWeight;
+
     //Mảng lưu giữ các cột của mảng
     float[] diemDauVao;
     float[] diemNamNgoai;
     float[] diem2NamTruoc;
     float[] diem3NamTruoc;
-    float[] tiLeCaoHon;
+    float[] tiLeThapHon;
     float[] xuHuong;
     int N = 17; //Số lượng các trường đại học
 
@@ -46,6 +56,34 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     public static Connection con = null;
     public static ResultSet rs = null;
     public static PreparedStatement stm = null;
+
+    public static float[] stantadizedData;
+    public static float[] weightedData;
+
+    public static String[] university = {
+        "Học Viện An Ninh Nhân Dân",
+        "Học Viện Công Nghệ Bưu Chính Viễn Thông(Phía Bắc)",
+        "Đại học Tài Nguyên và Môi Trường Hà Nội",
+        "Đại Học Bách Khoa Hà Nội",
+        "Đại Học Hà Nội",
+        "Đại Học Giao Thông Vận Tải ( Cơ sở Phía Bắc )",
+        "Đại Học Điện Lực",
+        "Học Viện Kỹ Thuật Mật Mã",
+        "Đại Học Sư Phạm Hà Nội",
+        "Đại Học Kinh Tế Kỹ Thuật Công Nghiệp",
+        "Viện Đại Học Mở Hà Nội",
+        "Đại Học Thủy Lợi ( Cơ sở 1 )",
+        "Đại Học Mỏ Địa Chất",
+        "Đại học Nông Nghiệp Hà Nội",
+        "Đại Học Lâm Nghiệp ( Cơ sở 1 )",
+        "Đại Học Công Nghiệp Việt Hung",
+        "Đại Học Công Nghiệp Hà Nội"
+    };
+
+    public float entrancePoint;
+    public float numLower;
+    public String bkaTrend;
+    public float rateLower;
 
     /**
      * Creates new form ChoosingSchool
@@ -76,22 +114,37 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         jcomboRow = new javax.swing.JComboBox();
         jcomboRowAtt = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jcomboCol1 = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jcomboCol2 = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        jcomboCol3 = new javax.swing.JComboBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,45 +203,57 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         jcomboRowAtt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rất rất thích", "Rất thích", "Thích", "Không thích lắm", "Không thích", "Ghét" }));
         jPanel6.add(jcomboRowAtt);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        jPanel3.setLayout(new java.awt.GridLayout(1, 3));
+        jPanel3.add(jLabel5);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(141, 141, 141))
-        );
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton4.setText("Cập nhật dữ liệu");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton4);
+        jPanel3.add(jLabel6);
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 3));
-        jPanel7.add(jLabel13);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Trợ giúp");
+        jButton1.setText("Trợ giúp chọn trường");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel7.add(jButton1);
-        jPanel7.add(jLabel12);
+
+        jButton6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton6.setText("Thông tin quyết định rút,nộp");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+        jPanel7.add(jButton6);
+
+        jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton5.setText("Gợi ý rút,nộp hồ sơ");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+        jPanel7.add(jButton5);
 
         jButton2.setText("Xác nhận");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -226,28 +291,186 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel2.setText("Thuộc tính lợi nhuận");
+
+        jcomboCol1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Chia cho tổng", "Tổng bình phương", "Chia cho max" }));
+        jcomboCol1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcomboCol1ItemStateChanged(evt);
+            }
+        });
+        jcomboCol1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcomboCol1MouseClicked(evt);
+            }
+        });
+        jcomboCol1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcomboCol1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Thuộc tính giá");
+
+        jcomboCol2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Chia cho tổng", "Tổng bình phương", "Chia cho max" }));
+        jcomboCol2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcomboCol2ItemStateChanged(evt);
+            }
+        });
+        jcomboCol2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcomboCol2MouseClicked(evt);
+            }
+        });
+
+        jLabel4.setText("Phương pháp");
+
+        jcomboCol3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ELECTRE", "TOPSIS" }));
+        jcomboCol3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcomboCol3ItemStateChanged(evt);
+            }
+        });
+        jcomboCol3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcomboCol3MouseClicked(evt);
+            }
+        });
+        jcomboCol3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcomboCol3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcomboCol2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcomboCol1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcomboCol3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jcomboCol1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jcomboCol2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jcomboCol3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         jMenu4.setText("Xu hướng");
 
-        jMenuItem4.setText("IT");
+        jMenuItem6.setText("Đại Học Công Nghiệp Hà Nội");
+        jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem6MouseReleased(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuItem4.setText("Đại học Bách Khoa Hà Nội");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem4MouseReleased(evt);
+            }
+        });
         jMenu4.add(jMenuItem4);
 
-        jMenuBar1.add(jMenu4);
-
-        jMenu1.setText("Bảng dữ liệu");
-
-        jMenuItem1.setText("Bảng dữ liệu");
+        jMenuItem1.setText("Học Viện An Ninh");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jMenuItem1MouseReleased(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu4.add(jMenuItem1);
+
+        jMenuItem3.setText("Đại Học Giao Thông Vận Tải");
+        jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem3MouseReleased(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        jMenuItem5.setText("Đại Học Sư Phạm Hà Nội");
+        jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem5MouseReleased(evt);
+            }
+        });
+        jMenu4.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu4);
+
+        jMenu1.setText("Bảng dữ liệu");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
 
         jMenuItem2.setText("Bảng dữ liệu đã nhân trọng số");
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem2MouseReleased(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
-        jMenuItem3.setText("Bộ trọng số");
-        jMenu1.add(jMenuItem3);
+        jMenuItem7.setText("Bảng dữ liệu chuẩn hóa");
+        jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem7MouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem7MouseReleased(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
 
         jMenuBar1.add(jMenu1);
 
@@ -267,9 +490,16 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 25, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 379, Short.MAX_VALUE)
+                    .addGap(0, 447, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
@@ -285,16 +515,22 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(248, 248, 248))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(492, 492, 492))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(174, 174, 174)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(671, Short.MAX_VALUE)))
+                    .addContainerGap(964, Short.MAX_VALUE)))
         );
 
         pack();
@@ -346,13 +582,355 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+
         getRawData();
+        weighProcessing();
+        stantadizedData = getMatrix();
+
+        int phuongphap = jcomboCol3.getSelectedIndex();
+        if (phuongphap == 0) {
+            int row = preWeight.length;
+            int col = imWeight.length;
+            //Hien thi bang du lieu da chuan hoa
+            showTable(stantadizedData, row, col);
+            //Nhân bộ trọng số sở thích
+            weightedData = new float[stantadizedData.length];
+            for (int i = 0; i < weightedData.length; i++) {
+                weightedData[i] = stantadizedData[i];
+            }
+
+            if (jCheckBox1.isSelected()) {
+                for (int i = 0; i < row; i++) {
+                    for (int t = i * col; t < (i + 1) * col; t++) {
+                        weightedData[t] = preWeight[i] * stantadizedData[t];
+                    }
+                }
+            }
+//            //Nhân bộ trọng số quan trọng các thuộc tính
+//            if (jCheckBox2.isSelected()) {
+//                for (int i = 0; i < data.length; i++) {
+//                    int r = i % col;
+//                    data[i] *= importance[r];
+//                }
+//            }
+            Electre ele = new Electre(N, 6, weightedData, imWeight);
+            ArrayList<Integer> arr = ele.getResult();
+//            for (int i = 0; i < arr.size(); i++) {
+//                System.out.print(arr.get(i) + " ");
+//            }
+//            System.out.println("");
+
+            Vector vec = new Vector();
+            vec.addElement("Danh sách lựa chọn các trường đại học");
+            //Tao vector data
+            Vector data = new Vector();
+            for (int i = 0; i < arr.size(); i++) {
+                Vector vv = new Vector();
+                vv.addElement(university[arr.get(i)]);
+                data.add(vv);
+            }
+
+            jTable2.setModel(new DefaultTableModel(data, vec));
+
+        } else {
+            int row = preWeight.length;
+            int col = imWeight.length;
+            //Hien thi bang du lieu da chuan hoa
+            showTable(stantadizedData, row, col);
+
+            weightedData = getWeightData(stantadizedData, imWeight, preWeight);
+            Topsis top = new Topsis(N, 6, weightedData);
+            int[] rs = top.getResultRow();
+//            for (int i = 0; i < rs.length; i++) {
+//                System.out.println(university[rs[i]]);
+//            }
+//            System.out.println("");
+
+            Vector vec = new Vector();
+            vec.addElement("Danh sách lựa chọn các trường đại học");
+            //Tao vector data
+            Vector data = new Vector();
+            for (int i = 0; i < rs.length; i++) {
+                Vector vv = new Vector();
+                vv.addElement(university[rs[i]]);
+                data.add(vv);
+            }
+
+            jTable2.setModel(new DefaultTableModel(data, vec));
+        }
+
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+
+        try {
+            Data d = new Data();
+            d.doAll();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jcomboCol1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcomboCol1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol1ItemStateChanged
+
+    private void jcomboCol1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcomboCol1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol1MouseClicked
+
+    private void jcomboCol2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcomboCol2ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol2ItemStateChanged
+
+    private void jcomboCol2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcomboCol2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol2MouseClicked
+
+    private void jcomboCol1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomboCol1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol1ActionPerformed
+
+    private void jcomboCol3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcomboCol3ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol3ItemStateChanged
+
+    private void jcomboCol3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcomboCol3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol3MouseClicked
+
+    private void jcomboCol3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomboCol3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCol3ActionPerformed
+
+    private void jMenuItem4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseReleased
+        String sql = "SELECT *\n"
+                + "From `data`.diem_dau_vao\n"
+                + "where id = 4";
+
+        showXuHuong("Đại học Bách Khoa Hà Nội", sql);
+
+    }//GEN-LAST:event_jMenuItem4MouseReleased
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        Vector vec = new Vector();
+        vec.addElement("Điểm đầu vào trường BKA");
+        vec.addElement("Điểm của thí sinh");
+        vec.addElement("Xu hướng rút nộp hồ sơ");
+        vec.addElement("Số sinh viên thấp điểm hơn");
+        vec.addElement("Tỉ lệ sinh viên thấp điểm hơn");
+
+        //Tao vector data
+        Vector data = new Vector();
+
+        //Lấy điểm đầu vào hiện tại của trường đại học bka
+        Vector vv = new Vector();
+        String sql = "SELECT `data`.diem_dau_vao.t10\n"
+                + "FROM `data`.diem_dau_vao\n"
+                + "WHERE `data`.diem_dau_vao.id = 4";
+        float[] temp = getData(sql, 1);
+        vv.addElement(temp[0]);
+        entrancePoint = temp[0];
+
+        //Lấy điểm thi của thí sinh
+        vv.addElement(MainFrame.diemKhoiA);
+        //Lấy xu hướng rút nộp hồ sơ
+        String[] xh = getTrend(N);
+        vv.addElement(xh[3]);
+        bkaTrend = xh[3];
+
+        //Lấy số lượng sinh viên thấp điểm hơn
+        float[] tile = new float[N];
+        float sum = 0;
+        float thap = 0;
+        float stopPositon = MainFrame.diemKhoiA * 2;
+        for (int i = 0; i < N; i++) {
+            sql = "SELECT `data`.sinh_vien_muc_diem.truong" + String.valueOf(i + 1) + "\n"
+                    + "FROM `data`.sinh_vien_muc_diem";
+
+            try {
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                int index = 0;
+                while (rs.next()) {
+                    sum += Float.parseFloat(rs.getString(1));
+                    if (index < stopPositon) {
+                        thap = sum;
+                        index++;
+                    }
+                }
+                tile[i] = thap / sum;
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+
+        }
+        vv.addElement(thap);
+        numLower = thap;
+        //Lấy tỉ lể sinh viên cao điểm hơn
+        vv.addElement(tile[3]);
+        data.add(vv);
+        rateLower = tile[3];
+        jTable1.setModel(new DefaultTableModel(data, vec));
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jMenuItem2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseReleased
+        int row = preWeight.length;
+        int col = imWeight.length;
+        showTable(weightedData, row, col);
+    }//GEN-LAST:event_jMenuItem2MouseReleased
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        float bias = MainFrame.diemKhoiA - entrancePoint;
+        float aa = 1;
+        if (bias > 2) {
+            aa = 3;
+        } else if (bias > 1) {
+            aa = 2;
+        } else if (bias > -1) {
+            aa = 1;
+        } else if (bias > -2) {
+            aa = (float) 0.5;
+        } else {
+            aa = (float) 0.25;
+        }
+
+        float bb = 1;
+        if (bkaTrend.equals("Tăng nhanh")) {
+            bb = (float) 0.2;
+        } else if (bkaTrend.equals("Tăng chậm")) {
+            bb = (float) 0.5;
+        } else if (bkaTrend.equals("Ổn đinh")) {
+            bb = 1;
+        } else if (bkaTrend.equals("Giảm chậm")) {
+            bb = 2;
+        } else if (bkaTrend.equals("Giảm nhảnh")) {
+            bb = 3;
+        }
+
+        float cc = 1;
+        if (rateLower > 0.9) {
+            cc = 3;
+        } else if (rateLower > 0.7) {
+            cc = 1;
+        } else if (rateLower > 0.5) {
+            cc = (float) 0.8;
+        } else if (rateLower > 0.3) {
+            cc = (float) 0.5;
+        } else {
+            cc = (float) 0.2;
+        }
+
+        float dd = aa * bb * cc;
+        if (dd >= 1) {
+            Vector vec = new Vector();
+            vec.addElement("Gợi ý");
+            vec.addElement("Điểm");
+
+            Vector data = new Vector();
+            Vector vv = new Vector();
+            vv.addElement("Không rút");
+            vv.addElement(dd);
+            data.add(vv);
+            jTable2.setModel(new DefaultTableModel(data, vec));
+
+        } else {
+
+            Vector vec = new Vector();
+            vec.addElement("Gợi ý");
+            vec.addElement("Điểm");
+
+            Vector data = new Vector();
+            Vector vv = new Vector();
+            vv.addElement("Rút");
+            vv.addElement(dd);
+            data.add(vv);
+            jTable2.setModel(new DefaultTableModel(data, vec));
+        }
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jMenuItem6MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem6MouseReleased
+        String sql = "SELECT *\n"
+                + "From `data`.diem_dau_vao\n"
+                + "where id = 17";
+
+        showXuHuong("Đại học Công Nghiệp Hà Nội", sql);
+    }//GEN-LAST:event_jMenuItem6MouseReleased
+
     private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
+        String sql = "SELECT *\n"
+                + "From `data`.diem_dau_vao\n"
+                + "where id = 1";
 
-
+        showXuHuong("Đại học An Ninh Nhân Dân", sql);
     }//GEN-LAST:event_jMenuItem1MouseReleased
+
+    private void jMenuItem3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MouseReleased
+        String sql = "SELECT *\n"
+                + "From `data`.diem_dau_vao\n"
+                + "where id = 6";
+
+        showXuHuong("Đại học Giao Thông Vận Tải", sql);
+    }//GEN-LAST:event_jMenuItem3MouseReleased
+
+    private void jMenuItem5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MouseReleased
+        String sql = "SELECT *\n"
+                + "From `data`.diem_dau_vao\n"
+                + "where id = 9";
+
+        showXuHuong("Đại học Sư Phạm Hà Nội", sql);
+    }//GEN-LAST:event_jMenuItem5MouseReleased
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenuItem7MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MouseReleased
+        int row = preWeight.length;
+        int col = imWeight.length;
+        //Hien thi bang du lieu da chuan hoa
+        showTable(stantadizedData, row, col);
+    }//GEN-LAST:event_jMenuItem7MouseReleased
+
+    private void jMenuItem7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem7MouseClicked
+
+    public void showXuHuong(String tentruong, String sql) {
+        float[] data = new float[10];
+        try {
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+            int index = 0;
+            while (rs.next()) {
+                for (int i = 0; i < 10; i++) {
+                    data[i] = Float.parseFloat(rs.getString(i + 3));
+                }
+            }
+
+            String title = "Xu Hướng Điểm Đầu Vào Trường " + tentruong;
+            String headTitle = "Xu Hướng Điểm Trường " + tentruong;
+            FrequencyChart chart = new FrequencyChart(headTitle, title, data, "thời điểm", "điểm");
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
 
     //Ham danh gia xu huong tang hay giam diem
     private float linearRegression(float[] x, float[] y) {
@@ -389,42 +967,74 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         return beta1;
     }
 
+    //
     //Hàm xử lý lấy dữ liệu thô
     public void getRawData() {
         String sql = "";
         //Lay du lie hien tai
-        sql = "SELECT `data`.diem_dau_vao.now\n"
+        sql = "SELECT `data`.diem_dau_vao.t10\n"
                 + "FROM `data`.diem_dau_vao";
         diemDauVao = getData(sql, N);
         //Lay diem nam ngoai
         sql = "SELECT `data`.choosing_university.last_score\n"
                 + "FROM `data`.choosing_university\n"
-                + "WHERE `data`.choosing_university.major  = \"Công Nghệ Thông Tin\"";
+                + "WHERE `data`.choosing_university.id < 18";
         diemNamNgoai = getData(sql, N);
         //Lay diem 2 nam truoc
         sql = "SELECT `data`.choosing_university.last_2_year_score\n"
                 + "FROM `data`.choosing_university\n"
-                + "WHERE `data`.choosing_university.major  = \"Công Nghệ Thông Tin\"";
+                + "WHERE `data`.choosing_university.id < 18";
         diem2NamTruoc = getData(sql, N);
         //Lay diem 3 nam truoc
         sql = "SELECT `data`.choosing_university.last_3_year_score\n"
                 + "FROM `data`.choosing_university\n"
-                + "WHERE `data`.choosing_university.major  = \"Công Nghệ Thông Tin\"";
+                + "WHERE `data`.choosing_university.id < 18";
         diem3NamTruoc = getData(sql, N);
         //Lay ti le sinh vien co diem cao hon
-        tiLeCaoHon = new float[N];
+        tiLeThapHon = new float[N];
+        float sum = 0;
+        float thap = 0;
+        float stopPositon = MainFrame.diemKhoiA * 2;
         for (int i = 0; i < N; i++) {
-            tiLeCaoHon[i] = (float) 0.5;
+            sql = "SELECT `data`.sinh_vien_muc_diem.truong" + String.valueOf(i + 1) + "\n"
+                    + "FROM `data`.sinh_vien_muc_diem";
+
+            try {
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                int index = 0;
+                while (rs.next()) {
+                    sum += Float.parseFloat(rs.getString(1));
+                    if (index < stopPositon) {
+                        thap = sum;
+                        index++;
+                    }
+                }
+                tiLeThapHon[i] = thap / sum;
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+
         }
+
         //Lay du lieu ve xu huong diem dau ra va dau vao
-        xuHuong = getTrend(N);
+        String[] temp = getTrend(N);
+        xuHuong = new float[N];
+        for (int i = 0; i < N; i++) {
+            xuHuong[i] = AssignmentManager.Assign("trend", temp[i]);
+        }
+
     }
+//Ham xu ly diem dau vao cua cac truong tai cac thoi diem khac nha
+    //dua ra xu huong diem cua cac truong
 
-    public float[] getTrend(int length) {
+    public String[] getTrend(int length) {
         String sql = "SELECT *\n"
-                + "FROM `data`.diem_dau_va";
+                + "FROM `data`.diem_dau_vao";
 
-        float[] data = new float[length];
+        String[] data = new String[length];
         int numCol = 10;
         float[] yy = new float[numCol];
 
@@ -440,7 +1050,20 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
                 for (int i = 0; i < numCol; i++) {
                     yy[i] = Float.parseFloat(rs.getString(i + 3));
                 }
-                data[index] = linearRegression(xx, yy);
+                float temp = linearRegression(xx, yy);
+                if (temp >= 1) {
+                    data[index] = "Tăng nhanh";
+                } else if (temp >= 0.1) {
+                    data[index] = "Tăng chậm";
+                } else if (temp > -0.1) {
+                    data[index] = "Ổn định";
+                } else if (temp > -1) {
+                    data[index] = "Giảm chậm";
+                } else {
+                    data[index] = "Giảm nhanh";
+                }
+                index++;
+
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
@@ -450,6 +1073,7 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         return data;
     }
 
+    //Lay diem dau vao cua cac truong qua cac nam truoc day
     public float[] getData(String sql, int length) {
         //Lay diem dau vao
         float[] data = new float[length];
@@ -491,6 +1115,108 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+
+    public void weighProcessing() {
+        weightManager manager = new weightManager(
+                importance,
+                AssignmentManager.importance,
+                AssignmentManager.importance_value,
+                prefer,
+                AssignmentManager.loveLevel,
+                AssignmentManager.lovelevel_value
+        );
+
+        imWeight = manager.getImportanceWeight();
+        preWeight = manager.getPreferWeight();
+    }
+//Chuan hoa bang du lieu tho
+//Tra lai bang du lieu da chuan hoa
+
+    public float[] getMatrix() {
+        float[] dDauVao;
+        float[] dNamNgoai;
+        float[] d2NamTruoc;
+        float[] d3NamTruoc;
+        float[] tlThapHon;
+        float[] xHuong;
+        float[] data = new float[N * 6];
+
+        int loinhuan = jcomboCol2.getSelectedIndex() + 1;
+        int gia = jcomboCol1.getSelectedIndex() + 1;
+        int phuongphap = jcomboCol3.getSelectedIndex();
+
+        StandadizedMethod method = new StandadizedMethod();
+        dDauVao = method.standadize(gia * (-1), diemDauVao, -1);
+        dNamNgoai = method.standadize(gia * (-1), diemNamNgoai, -1);
+        d2NamTruoc = method.standadize(gia * (-1), diem2NamTruoc, -1);
+        d3NamTruoc = method.standadize(gia * (-1), diem3NamTruoc, -1);
+        tlThapHon = method.standadize(gia * (-1), tiLeThapHon, -1);
+        xHuong = method.standadize(gia * (-1), xuHuong, -1);
+
+        int index = 0;
+        while (index < N * 6) {
+            data[index] = dDauVao[index / 6];
+            index++;
+            data[index] = dNamNgoai[index / 6];
+            index++;
+            data[index] = d2NamTruoc[index / 6];
+            index++;
+            data[index] = d3NamTruoc[index / 6];
+            index++;
+            data[index] = tlThapHon[index / 6];
+            index++;
+            data[index] = xHuong[index / 6];
+            index++;
+        }
+        return data;
+    }
+
+    public void showTable(float[] table, int row, int column) {
+        //Tao ten cot
+        Vector col = new Vector();
+        col.addElement("Điểm đầu vào");
+        col.addElement("Điểm năm ngoái");
+        col.addElement("Điểm năm kia");
+        col.addElement("Điểm 3 năm trước");
+        col.addElement("Tỉ lệ cao điểm hơn");
+        col.addElement("Xu hướng điểm");
+        //Tao vector data
+        Vector data = new Vector();
+
+        for (int i = 0; i < row; i++) {
+            Vector vv = new Vector();
+            for (int j = 0; j < column; j++) {
+                vv.addElement(table[i * column + j]);
+            }
+            data.add(vv);
+        }
+
+        jTable1.setModel(new DefaultTableModel(data, col));
+
+    }
+
+    //Nhan du lieu bang voi bo trong so
+    public float[] getWeightData(float[] data, float[] importance, float[] prefer) {
+        int row = prefer.length;
+        int col = importance.length;
+        //Nhân bộ trọng số sở thích
+        if (jCheckBox1.isSelected()) {
+            for (int i = 0; i < row; i++) {
+                for (int t = i * col; t < (i + 1) * col; t++) {
+                    data[t] = prefer[i] * data[t];
+                }
+            }
+        }
+
+        //Nhân bộ trọng số quan trọng các thuộc tính
+        if (jCheckBox2.isSelected()) {
+            for (int i = 0; i < data.length; i++) {
+                int r = i % col;
+                data[i] *= importance[r];
+            }
+        }
+        return data;
     }
 
     /**
@@ -560,11 +1286,17 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
@@ -572,6 +1304,9 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -580,9 +1315,15 @@ public class ChoosenMajorChoosingSchool extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JComboBox jcomboCol;
+    private javax.swing.JComboBox jcomboCol1;
+    private javax.swing.JComboBox jcomboCol2;
+    private javax.swing.JComboBox jcomboCol3;
     private javax.swing.JComboBox jcomboColAtt;
     private javax.swing.JComboBox jcomboRow;
     private javax.swing.JComboBox jcomboRowAtt;
