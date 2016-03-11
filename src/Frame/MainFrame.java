@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
     public static Connection con = null;
     public static ResultSet rs = null;
     public static PreparedStatement stm = null;
-    public static float diemKhoiA = (float)17.5;
+    public static float diemKhoiA = (float) 17.5;
 
     /**
      * Creates new form MainFrame
@@ -362,9 +362,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int toan = Integer.parseInt(textField1.getText().toString());
-        int ly = Integer.parseInt(textField3.getText().toString());
-        int hoa = Integer.parseInt(textField5.getText().toString());
+        float toan = Float.parseFloat(textField1.getText().toString());
+        float ly = Float.parseFloat(textField3.getText().toString());
+        float hoa = Float.parseFloat(textField5.getText().toString());
         diemKhoiA = toan + ly + hoa;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
